@@ -75,7 +75,16 @@ def split_train_test(data, train_prop):
         output: A tuple of two lists, (training, testing)
     '''
     # TODO: You will write this function, and change the return value
-    return ([], [])
+    numFirst = train_prop * len(data)
+    newList1 = []
+    newList2 = []
+    for i in range (0, len(data)):
+      if i < numFirst:
+        newList1.append(data[i])
+      else:
+        newList2.append(data[i])
+        
+    return (newList1, newList2)
 
 def format_for_classifier(data_list, label):
     ''' input: A list of documents represented as text strings
@@ -85,7 +94,10 @@ def format_for_classifier(data_list, label):
                 [format_sentence(doc), label]
     '''
     # TODO: Write this function, change the return value
-    return []
+    myList = []
+    for i in range (0, len(data_list)):
+      myList.append([format_sentence(data_list[i]), label])
+    return myList
 
 def classify_reviews():
     ''' Perform sentiment classification on movie reviews ''' 
@@ -120,11 +132,11 @@ def classify_reviews():
 
     # Train a Naive Bayes Classifier
     # Uncomment the next line once the code above is working
-    #classifier = NaiveBayesClassifier.train(training)
+    classifier = NaiveBayesClassifier.train(training)
 
     # Uncomment the next two lines once everything above is working
-    #print("Accuracy of the classifier is: " + str(accuracy(classifier, test)))
-    #classifier.show_most_informative_features()
+    print("Accuracy of the classifier is: " + str(accuracy(classifier, test)))
+    classifier.show_most_informative_features()
 
     # TODO: Calculate and print the accuracy on the positive and negative
     # documents separately
