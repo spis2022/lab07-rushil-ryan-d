@@ -1,3 +1,4 @@
+import random
 import pandas as pd
 import nltk
 nltk.download('punkt')
@@ -6,6 +7,53 @@ from nltk.classify import NaiveBayesClassifier
 from nltk.corpus import stopwords
 from nltk.classify.util import accuracy
 
+#Part 1: Markov Chains
+counts = dict()
+def train(s):
+  wordList = s.split()
+  for i in range (0, len(wordList) - 1):
+      if wordList[i] not in counts:
+        counts[wordList[i]] = [wordList[i+1]]
+      else:
+        counts[wordList[i]].append(wordList[i+1])
+  if wordList[len(wordList) - 1] not in counts:
+    counts[wordList[len(wordList) - 1]] =  [wordList[0]]
+  else:
+    counts[wordList[len(wordList) - 1]].append(wordList[0])
+
+def generate(model, first_word, num_words):
+  first_word_list = [first_word]
+  curWord = first_word
+  for i in range(num_words):
+    x = random.choice(model[curWord])
+    first_word_list.append(x)
+    curWord = x
+
+  gen = ''
+  for word in first_word_list:
+    gen += ' ' + word
+
+  print(gen)
+  
+st = "Yeah baby I like it like that You gotta believe me when I tell you I said I like it like that"
+
+print(st)
+train(st)
+generate(counts, "Yeah", 10)
+  
+    
+      
+
+
+
+
+
+
+
+
+
+
+#Part 2: Naive Bayes Classification
 # "Stop words" that you might want to use in your project/an extension
 stop_words = set(stopwords.words('english'))
 
